@@ -3,6 +3,8 @@
 session_start();
 require 'conn.php';
 
+
+
 if (isset($_POST['login'])) {
 
     $phone = $_POST['phone'];
@@ -45,8 +47,12 @@ if (isset($_POST['login'])) {
     <link href="./css/style.css" rel="stylesheet">
 
     <!-- JS files -->
+    <script src="js/jquery-3.6.3.min.js"></script>
     <script src="./js/bootstrap.min.js" ></script>
     <script src="./js/all.min.js" ></script>
+    <script src="https://www.google.com/recaptcha/api.js"
+    async defer>
+</script>
 
     	<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1EERD8DM82"></script>
@@ -80,6 +86,9 @@ if (isset($_POST['login'])) {
                             <div class="form-floating mb-3">
                             <input type="password" class="form-control" placeholder="كلمة المرور" name="user_password">
                             <label for="pswd">كلمة المرور</label>
+                            </div>
+                            <div class="mb-3 text-center">
+                            <div class=”g-recaptcha” data-sitekey="6LcxhTglAAAAAMzHcuBxBgdUYcK0XmSX-SBdn8BZ"></div> 
                             </div>
                             <div class="mb-3 text-center">
                             <input type="submit" class="btn btn-color" name="login" value="تسجيل دخول">
