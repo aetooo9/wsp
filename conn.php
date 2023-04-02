@@ -1,5 +1,6 @@
 <?php
 
+ini_set('display_errors', 0);
 
 $host="localhost";
 $User="root";

@@ -3,14 +3,26 @@
 session_start();
 require 'conn.php';
 
-
-
 if (isset($_POST['login'])) {
 
-    $phone = $_POST['phone'];
-    $user_password = $_POST['user_password'];
+    /*$recaptcha = $_POST['g-recaptcha'];
+     
+    $secret_key = "6LeVHzolAAAAANQM4jpgiTvQ2TcBowLL7_xA3k_X";
 
-     $sql = "select count(1) as num,user_id,user_name from users 
+    $url = "https://www.google.com/recaptcha/api/siteverify?secret='.$secret_key.'&response='.$recaptcha.'";
+ 
+
+    $response = file_get_contents($url);
+
+    $response = json_decode($response);
+
+
+    if($response->success == true){*/
+
+    $phone = $_POST['phone'];
+    $user_password = md5($_POST['user_password']);
+
+     $sql = "select count(1) as num,user_id,user_name,group_id from users 
             where phone=$phone and user_password='$user_password' and verifiy=1
             ";
           //  $conn->query($sql);
@@ -22,11 +34,17 @@ if (isset($_POST['login'])) {
     if ($UserRow['num'] > 0) {
         $_SESSION['user_id'] = $UserRow['user_id'];
         $_SESSION['user_name'] = $UserRow['user_name'];
+        $_SESSION['group_id'] = $UserRow['group_id'];
         $_SESSION['status'] = 1;
         echo "<script>location.href='home.php';</script>";
     } else {
         $msg = "<div class='alert alert-danger'>اسم المستخدم او كلمة المررو غير صحيحة</div>";
     }
+
+/*}else{
+    $msg = "<div class='alert alert-danger'>يرجى الضغط على reCaptcha</div>";
+}*/
+
 }
 
         ?>
@@ -47,12 +65,11 @@ if (isset($_POST['login'])) {
     <link href="./css/style.css" rel="stylesheet">
 
     <!-- JS files -->
-    <script src="js/jquery-3.6.3.min.js"></script>
     <script src="./js/bootstrap.min.js" ></script>
     <script src="./js/all.min.js" ></script>
-    <script src="https://www.google.com/recaptcha/api.js"
-    async defer>
-</script>
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 
     	<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1EERD8DM82"></script>
@@ -88,7 +105,7 @@ if (isset($_POST['login'])) {
                             <label for="pswd">كلمة المرور</label>
                             </div>
                             <div class="mb-3 text-center">
-                            <div class=”g-recaptcha” data-sitekey="6LcxhTglAAAAAMzHcuBxBgdUYcK0XmSX-SBdn8BZ"></div> 
+                            <div class="g-recaptcha" data-sitekey="6LeVHzolAAAAAJ0aNYZVUgOk8NMPsgOQVHG-NvBP"></div>
                             </div>
                             <div class="mb-3 text-center">
                             <input type="submit" class="btn btn-color" name="login" value="تسجيل دخول">
@@ -96,7 +113,6 @@ if (isset($_POST['login'])) {
                             <div class="mb-3 text-center">
                             <a href="signup.php" class="card-link float-start">انشاء حساب</a>
                             <a href="reset.php" class="card-link float-end">نسيت كلمة المرور </a>
-
                             </div>
                         </form>
                     </div>

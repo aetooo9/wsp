@@ -58,4 +58,45 @@ $message = file_get_contents("index.html");
 
   }
 
+
+  function user_page($page_id,$group_id){
+
+    require 'conn.php';
+
+    $sql = "select * from per_groups where group_id = ?";
+        $r = $conn->prepare($sql);
+        $r->bind_param('i',$group_id);
+        $r->execute();
+        $rr = $r->get_result();
+        while($per = $rr->fetch_assoc()){
+            $PageArray[] = $per['page_id'];
+        }
+
+        if(!in_array($page_id,$PageArray)){
+
+          return "<script>location.href='home.php';</script>";
+
+        }
+  }
+
+
+  function user_oparetion($page_id,$group_id){
+
+    require 'conn.php';
+
+     $sql = "select * from per_groups where group_id = ? and page_id = ?";
+        $r = $conn->prepare($sql);
+        $r->bind_param('ii',$group_id,$page_id);
+        $r->execute();
+        $rr = $r->get_result();
+        $per = $rr->fetch_assoc();
+
+        return $per;
+
+  }
+
+
+
+
+
 ?>

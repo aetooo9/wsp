@@ -13,7 +13,7 @@ if (isset($_POST['register'])) {
 {
     $user_name = $_POST['user_name'];
     $phone = $_POST['phone'];
-    $password = $_POST['password'];
+    $password = md5($_POST['password']);
     $verifiy = 0;
 
     $code = rand(1000,9999);

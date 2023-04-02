@@ -5,6 +5,28 @@ if($_SESSION['status']<>1){
 }
 
 
+require 'conn.php';
+require "func.php";
+
+
+$oparetion = user_oparetion(3,$_SESSION['group_id']);
+
+
+$sql = "select * from per_groups where group_id = ?";
+$r = $conn->prepare($sql);
+$r->bind_param('i',$_SESSION['group_id']);
+$r->execute();
+$rr = $r->get_result();
+while($per = $rr->fetch_assoc()){
+    $PageArray[] = $per['page_id'];
+}
+
+
+
+
+
+
+
 
 ?>
 <!DOCTYPE html>
@@ -62,12 +84,22 @@ if($_SESSION['status']<>1){
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
         <ul class="navbar-nav nav-tabs">
+            <?php
+            if(in_array(1,$PageArray)){
+            ?>
                <li class="nav-item">
                     <a class="nav-link" href="orders.php">طلباتي</a>
                 </li>
+                <?php
+            }
+            if(in_array(2,$PageArray)){
+                ?>
                 <li class="nav-item">
                     <a class="nav-link" href="profile.php">ملفي الشخصي (<?php echo htmlspecialchars($_SESSION['user_name']); ?>)</a>
                 </li>
+                <?php
+            }
+                ?>
                <li class="nav-item">
                     <a class="nav-link" href="./">تسجيل خروج</a>
                 </li>
@@ -90,7 +122,24 @@ if($_SESSION['status']<>1){
                     <div class="card-body">
                         <h5 class="card-title">التسجيل التمهيدي</h5>
                         <p class="card-text">نص تعريفي بالخدمة</p>
-                        <a href="service.php?sno=التسجيل التمهيدي" class="card-link btn btn-color">طلب الخدمة</a>
+                        <?php
+                      
+                       if ($oparetion['save'] == 1){
+                        ?>
+                        <a href="" class="card-link btn btn-color">اضافة</a>
+                    <?php   
+                    }
+                    if ($oparetion['upd'] == 1){
+                    ?>
+                        <a href="" class="card-link btn btn-color">تعديل</a>
+                        <?php
+                    }
+                    if ($oparetion['del']  == 1){
+                        ?>
+                        <a href="" class="card-link btn btn-color">حذف</a>
+                        <?php
+                    }
+                        ?>
                     </div>
                     
             </div>

@@ -4,9 +4,15 @@ if($_SESSION['status']<>1){
 	echo "<script>location.href='./';</script>";
 }
 
-
-
 require "conn.php";
+require "func.php";
+
+
+echo user_page(2,$_SESSION['group_id']);
+
+
+
+
 
 
 
